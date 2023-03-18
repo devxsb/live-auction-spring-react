@@ -1,6 +1,8 @@
 package com.safalifter.auction.controller;
 
+import com.safalifter.auction.dto.OfferDto;
 import com.safalifter.auction.dto.ProductDto;
+import com.safalifter.auction.request.OfferRequest;
 import com.safalifter.auction.request.ProductAddRequest;
 import com.safalifter.auction.service.OfferService;
 import com.safalifter.auction.service.ProductService;
@@ -31,5 +33,12 @@ public class ProductController {
     ResponseEntity<List<ProductDto>> getProducts() {
         return ResponseEntity.ok(productService.getProducts().stream()
                 .map(x -> modelMapper.map(x, ProductDto.class)).collect(Collectors.toList()));
+    }
+
+    @PostMapping("{productId}/offer")
+    ResponseEntity<OfferDto> makeAnOffer(@PathVariable Long productId,
+                                         @RequestBody OfferRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(modelMapper.map(offerService.makeAnOffer(productId, request), OfferDto.class));
     }
 }
