@@ -1,5 +1,6 @@
 package com.safalifter.auction.service;
 
+import com.safalifter.auction.exc.NotFoundException;
 import com.safalifter.auction.model.User;
 import com.safalifter.auction.repository.UserRepository;
 import com.safalifter.auction.request.UserCreateRequest;
@@ -22,5 +23,14 @@ public class UserService {
 
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserById(Long id) {
+        return findUserById(id);
+    }
+
+    protected User findUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found!"));
     }
 }
