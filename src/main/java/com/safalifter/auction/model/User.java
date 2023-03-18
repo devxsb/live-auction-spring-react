@@ -2,10 +2,8 @@ package com.safalifter.auction.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "users")
 @Builder
@@ -15,9 +13,12 @@ import javax.persistence.Id;
 @Setter
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
     private String profileImage;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Offer> offers;
 }
