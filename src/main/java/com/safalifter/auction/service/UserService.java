@@ -1,10 +1,12 @@
 package com.safalifter.auction.service;
 
 import com.safalifter.auction.exc.NotFoundException;
+import com.safalifter.auction.model.Role;
 import com.safalifter.auction.model.User;
 import com.safalifter.auction.repository.UserRepository;
-import com.safalifter.auction.request.UserCreateRequest;
+import com.safalifter.auction.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +15,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public User create(UserCreateRequest request) {
+    public User create(RegisterRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
-                .password(request.getPassword()).build();
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER).build();
         return userRepository.save(user);
     }
 
@@ -31,6 +35,11 @@ public class UserService {
 
     protected User findUserById(Long id) {
         return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found!"));
+    }
+
+    protected User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("User not found!"));
     }
 }

@@ -52,4 +52,11 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         errors.put("error", exception.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(WrongCredentialsException.class)
+    public ResponseEntity<?> usernameOrPasswordInvalidException(WrongCredentialsException exception) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", exception.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
 }
