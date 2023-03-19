@@ -7,7 +7,6 @@ import useResponsive from '../hooks/useResponsive';
 // components
 import Iconify from '../components/iconify';
 // sections
-import {useNavigate} from "react-router-dom";
 import AuthForm from "../sections/auth/AuthForm";
 import {useState} from "react";
 
@@ -45,7 +44,6 @@ export default function AuthPage() {
     const [isRegistered, setIsRegistered] = useState(true)
 
     const mdUp = useResponsive('up', 'md');
-    const navigate = useNavigate()
     return (
         <>
             <Helmet>
