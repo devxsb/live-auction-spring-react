@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 // @mui
-import {Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Box} from '@mui/material';
+import {Box, Checkbox, FormHelperText, IconButton, InputAdornment, Link, Stack, TextField} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 // components
 import Iconify from '../../components/iconify';
@@ -16,7 +16,7 @@ export default function AuthForm({submit, link}) {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(null)
 
     const dispatch = useDispatch()
 
@@ -33,13 +33,13 @@ export default function AuthForm({submit, link}) {
                 authService.login(body).then(res => {
                     dispatch(login(res.data))
                     navigate("/")
-                }).catch(() => setError(true)) :
+                }).catch((ex) => setError(ex.response.data.error)) :
                 authService.register(body).then(() => {
                     authService.login(body).then(res => {
                         dispatch(login(res.data))
                         navigate("/")
-                    }).catch(() => setError(true))
-                }).catch(() => setError(true))
+                    }).catch((ex) => setError(ex.response.data.error))
+                }).catch((ex) => setError(ex.response.data.error))
         }
     };
     return (
@@ -49,9 +49,9 @@ export default function AuthForm({submit, link}) {
                            label="Username"
                            onChange={(e) => {
                                setUsername(e.target.value)
-                               setError(false)
+                               setError(null)
                            }}
-                           error={error}/>
+                           error={error != null}/>
 
                 <TextField
                     name="password"
@@ -68,9 +68,11 @@ export default function AuthForm({submit, link}) {
                     }}
                     onChange={(e) => {
                         setPassword(e.target.value)
-                        setError(false)
+                        setError(null)
                     }}
-                    error={error}/>
+                    error={error != null}
+                    aria-describedby="passwordHelper"/>
+                {error != null && <FormHelperText>{error}</FormHelperText>}
             </Stack>
 
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{my: 2}}>

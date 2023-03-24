@@ -1,1 +1,1 @@
-export { default } from './NavbarLayout';
+export {default} from './NavbarLayout';
