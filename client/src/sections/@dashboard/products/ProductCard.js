@@ -13,8 +13,8 @@ const StyledProductImg = styled('img')({
     top: 0,
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
-    position: 'absolute',
+    objectFit: 'fill',
+    position: 'absolute'
 });
 
 // ----------------------------------------------------------------------
@@ -24,7 +24,7 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({product}) {
-    const {name, cover, price, color} = product;
+    const {name, cover, price, color, link} = product;
     return (
         <Card>
             <Box sx={{pt: '100%', position: 'relative'}}>
@@ -32,7 +32,7 @@ export default function ShopProductCard({product}) {
             </Box>
 
             <Stack spacing={2} sx={{p: 3}}>
-                <Link color="inherit" underline="hover">
+                <Link color="inherit" underline="hover" variant="a" href={link} target="blank">
                     <Typography variant="subtitle2" noWrap>
                         {name}
                     </Typography>
