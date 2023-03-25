@@ -6,11 +6,17 @@ import {createTheme, StyledEngineProvider, ThemeProvider as MUIThemeProvider} fr
 //
 import palette from './palette';
 import shadows from './shadows';
-import typography from './typography';
+import typography, {pxToRem} from './typography';
 import GlobalStyles from './globalStyles';
 import customShadows from './customShadows';
 import componentsOverride from './overrides';
-
+import boxShadow from "./functions/boxShadow";
+import linearGradient from "./functions/linearGradient";
+import rgba from "./functions/rgba";
+import boxShadows from "./base/boxShadows";
+import borders from "./base/borders";
+import colors from "./base/colors";
+import fonts from "./base/fonts";
 // ----------------------------------------------------------------------
 
 ThemeProvider.propTypes = {
@@ -25,6 +31,16 @@ export default function ThemeProvider({children}) {
             typography,
             shadows: shadows(),
             customShadows: customShadows(),
+            functions: {
+                boxShadow,
+                rgba,
+                linearGradient,
+                pxToRem,
+            },
+            colors: {...colors},
+            boxShadows: {...boxShadows},
+            borders: {...borders},
+            fonts: {...fonts}
         }),
         []
     );

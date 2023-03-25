@@ -9,6 +9,7 @@ import Header from '../header';
 const StyledRoot = styled('div')({
     display: 'flex',
     overflow: 'hidden',
+    position: 'absolute'
 });
 
 const Main = styled('div')(({theme}) => ({
@@ -18,7 +19,7 @@ const Main = styled('div')(({theme}) => ({
     [theme.breakpoints.up('lg')]: {
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
-    },
+    }
 }));
 
 // ----------------------------------------------------------------------
