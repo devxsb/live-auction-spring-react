@@ -6,6 +6,7 @@ import {styled} from '@mui/material/styles';
 import {fCurrency} from '../../../utils/formatNumber';
 // components
 import {ColorPreview} from '../../../components/color-utils';
+import BasicModal from "../../../components/modal";
 
 // ----------------------------------------------------------------------
 
@@ -29,8 +30,8 @@ export default function ShopProductCard({product}) {
         <Card>
             <Box sx={{pt: '100%', position: 'relative'}}>
                 <StyledProductImg alt={name} src={cover}/>
+                <BasicModal product={product}/>
             </Box>
-
             <Stack spacing={2} sx={{p: 3}}>
                 <Link color="inherit" underline="hover" variant="a" href={link} target="blank">
                     <Typography variant="subtitle2" noWrap>

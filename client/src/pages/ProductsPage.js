@@ -16,7 +16,7 @@ export default function ProductsPage() {
             </Helmet>
 
             <Container>
-                <Typography variant="h4" sx={{mb: 5}}>
+                <Typography variant="h4" sx={{mb: 3}}>
                     Guitars
                 </Typography>
 
