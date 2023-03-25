@@ -28,7 +28,7 @@ export default function ShopProductCard({product}) {
     const {name, cover, price, color, link} = product;
     return (
         <Card>
-            <Box sx={{pt: '100%', position: 'relative'}}>
+            <Box sx={{pt: '80%', position: 'relative'}}>
                 <StyledProductImg alt={name} src={cover}/>
                 <BasicModal product={product}/>
             </Box>

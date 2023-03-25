@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import {FormControl, Input, InputAdornment, InputLabel} from "@mui/material";
 
 const style = {
     position: 'absolute',
@@ -36,8 +37,23 @@ export default function BasicModal({product}) {
                         {product.name}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        Starting price: ${product.price}
+                        <p>Starting price: ${product.price}</p>
+                        <p>Last bid: ${product.price}</p>
                     </Typography>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignContent: 'flex-end'}}>
+                        <FormControl sx={{mt: 1}} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-amount">Offer</InputLabel>
+                            <Input
+                                id="standard-adornment-amount"
+                                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            />
+                        </FormControl>
+                        <Button variant="outlined"
+                                color="primary"
+                                style={{float: 'right', marginTop: '10px'}}>
+                            Send
+                        </Button>
+                    </div>
                 </Box>
             </Modal>
         </div>
