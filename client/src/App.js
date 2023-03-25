@@ -1,12 +1,12 @@
 import './App.css';
 import AuthPage from "./pages/AuthPage";
 import {HelmetProvider} from "react-helmet-async";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ThemeProvider from './theme';
 import NavbarLayout from "./layouts/navbar";
-import HomePage from "./pages/HomePage";
 import {useSelector} from "react-redux";
-import Footer from "./layouts/footer";
+import Author from "./pages/Author";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
@@ -17,8 +17,10 @@ function App() {
                     {!currentUser ? <AuthPage/> :
                         <>
                             <NavbarLayout/>
-                            <HomePage/>
-                            <Footer/>
+                            <Routes>
+                                <Route path='/' element={<ProductsPage/>}/>
+                                <Route path=':username' element={<Author/>}/>
+                            </Routes>
                         </>
                     }
                 </ThemeProvider>

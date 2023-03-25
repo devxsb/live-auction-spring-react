@@ -4,29 +4,15 @@ import {alpha} from '@mui/material/styles';
 import {Avatar, Box, Divider, IconButton, MenuItem, Popover, Stack, Typography} from '@mui/material';
 import {logout} from "../../redux/reduxSlice";
 import {useDispatch, useSelector} from "react-redux";
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-    {
-        label: 'Home',
-        icon: 'eva:home-fill',
-    },
-    {
-        label: 'Profile',
-        icon: 'eva:person-fill',
-    },
-    {
-        label: 'Settings',
-        icon: 'eva:settings-2-fill',
-    },
-];
-
+import {useNavigate} from "react-router-dom";
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
     const [open, setOpen] = useState(null);
 
     const dispatch = useDispatch()
+
+    const navigate = useNavigate();
 
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
 
@@ -61,7 +47,7 @@ export default function AccountPopover() {
                     }),
                 }}
             >
-                <Avatar src={"/assets/images/avatars/default-profile.jpeg"} alt="photoURL"/>
+                <Avatar src={"/assets/images/avatars/rocknrollcat.gif"} alt="photoURL"/>
             </IconButton>
 
             <Popover
@@ -95,11 +81,18 @@ export default function AccountPopover() {
                 <Divider sx={{borderStyle: 'dashed'}}/>
 
                 <Stack sx={{p: 1}}>
-                    {MENU_OPTIONS.map((option) => (
-                        <MenuItem key={option.label}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
+                    <MenuItem key={'Home'} onClick={() => {
+                        navigate('/')
+                        handleClose()
+                    }}>
+                        Home
+                    </MenuItem>
+                    <MenuItem key={'Profile'} onClick={() => {
+                        navigate('/' + currentUser)
+                        handleClose()
+                    }}>
+                        Profile
+                    </MenuItem>
                 </Stack>
 
                 <Divider sx={{borderStyle: 'dashed'}}/>
