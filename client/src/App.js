@@ -6,6 +6,7 @@ import ThemeProvider from './theme';
 import NavbarLayout from "./layouts/navbar";
 import HomePage from "./pages/HomePage";
 import {useSelector} from "react-redux";
+import Footer from "./layouts/footer";
 
 function App() {
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
@@ -13,11 +14,11 @@ function App() {
         <HelmetProvider>
             <BrowserRouter>
                 <ThemeProvider>
-                    {!currentUser ?
-                        <AuthPage/> :
+                    {!currentUser ? <AuthPage/> :
                         <>
                             <NavbarLayout/>
                             <HomePage/>
+                            <Footer/>
                         </>
                     }
                 </ThemeProvider>
