@@ -5,6 +5,7 @@ import {Container, Typography} from '@mui/material';
 import {ProductList} from '../sections/@dashboard/products';
 // mock
 import PRODUCTS from '../_mock/products';
+import Footer from "../layouts/footer";
 
 // ----------------------------------------------------------------------
 
@@ -15,13 +16,15 @@ export default function ProductsPage() {
                 <title> Auction </title>
             </Helmet>
 
-            <Container>
+            <Container style={{paddingTop: '64px'}}>
                 <Typography variant="h4" sx={{mb: 3}}>
                     Guitars
                 </Typography>
 
                 <ProductList products={PRODUCTS}/>
             </Container>
+
+            <Footer/>
         </>
     );
 }
