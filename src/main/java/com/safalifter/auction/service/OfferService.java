@@ -20,7 +20,7 @@ public class OfferService {
     private final ProductService productService;
 
     public Offer makeAnOffer(Long productId, OfferRequest request) {
-        User bidder = userService.getUserById(request.getUserId());
+        User bidder = userService.getUserByUsername(request.getUsername());
         Product offeredProduct = productService.getProductById(productId);
         Double finalOffer = offeredProduct.getOffers().stream().mapToDouble(Offer::getOfferedPrice).max()
                 .orElse(offeredProduct.getStartingPrice());

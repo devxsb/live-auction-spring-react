@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class OfferRequest {
-    private Long userId;
+    private String username;
     private Double offeredPrice;
 }
