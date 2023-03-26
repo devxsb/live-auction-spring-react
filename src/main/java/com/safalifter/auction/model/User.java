@@ -23,8 +23,6 @@ public class User {
 
     private String password;
 
-    private String profileImage;
-
     @OneToMany(mappedBy = "user")
     private Set<Offer> offers;
 

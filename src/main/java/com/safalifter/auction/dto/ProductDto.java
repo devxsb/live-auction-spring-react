@@ -8,7 +8,6 @@ import java.util.Set;
 public class ProductDto {
     private Long id;
     private String name;
-    private String description;
     private Double startingPrice;
     private Set<OfferDto> offers;
 }

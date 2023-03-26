@@ -17,7 +17,6 @@ public class ProductService {
     public Product addProduct(ProductAddRequest request) {
         Product product = Product.builder()
                 .name(request.getName())
-                .description(request.getDescription())
                 .startingPrice(request.getStartingPrice()).build();
         return productRepository.save(product);
     }
