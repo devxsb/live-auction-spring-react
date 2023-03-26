@@ -3,6 +3,7 @@ package com.safalifter.auction.exc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,5 +59,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", exception.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+
+    @MessageExceptionHandler
+    public void handleException(Exception exception) {
+        System.err.println(exception.getMessage()); // will be solved
     }
 }
