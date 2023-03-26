@@ -10,6 +10,7 @@ import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {useSelector} from "react-redux";
+import {useState} from "react";
 
 const style = {
     position: 'absolute',
@@ -31,6 +32,8 @@ export default function BasicModal({product}) {
 
     const [lastBid, setLastBid] = React.useState(product.price);
 
+    let [time, setTime] = useState(5);
+
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
 
     const handleOpen = () => {
@@ -38,10 +41,20 @@ export default function BasicModal({product}) {
         let x = new ws(product.id)
         setSocket(x)
         x.wsConnect()
+        const downTimer = setInterval(function () {
+            if (time <= 0) {
+                handleClose()
+                clearInterval(downTimer);
+                toast.success(product.name.split(" ")[0] + " Auction's ended") // will be changed
+                return
+            }
+            setTime(--time)
+        }, 1000);
     }
 
     const handleClose = () => {
         setOpen(false);
+        setTime(60)
         if (socket) socket.wsDisconnect()
     }
 
@@ -107,13 +120,14 @@ export default function BasicModal({product}) {
                 aria-describedby="modal-modal-description"
             >
                 <>
-                    <Box sx={style} width={{xs: '25rem', md: '30rem'}}>
+                    <Box sx={style} width={{xs: '20rem', md: '25rem'}}>
                         <CloseIcon sx={{
                             position: 'absolute',
                             top: 5,
                             left: 5,
                             cursor: 'pointer'
                         }} onClick={handleClose}/>
+                        <p style={{textAlign: 'center', fontWeight: 'bold', margin: 0}}>{time}</p>
                         <Box sx={{pt: '60%', position: 'relative'}}>
                             <img src={product.cover} alt={product.id} style={{
                                 top: 0,
@@ -131,27 +145,28 @@ export default function BasicModal({product}) {
                             <p>Starting price: ${product.price}</p>
                             <p>Last bid: ${lastBid}</p>
                         </Typography>
-                        <TextField
-                            type="number"
-                            id="outlined-basic"
-                            label="Your offer:"
-                            variant="outlined"
-                            onChange={(e) => setOffer(e.target.value)}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">$</InputAdornment>
-                            }}
-                            sx={{mt: 1}}/>
-                        <Button variant="outlined"
-                                color="primary"
-                                style={{
-                                    marginTop: '17px',
-                                    marginLeft: '25px',
-                                    display: 'inline-block',
-                                    width: '82px'
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'}}>
+                            <TextField
+                                type="number"
+                                id="outlined-basic"
+                                label="Your offer:"
+                                variant="outlined"
+                                onChange={(e) => setOffer(e.target.value)}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">$</InputAdornment>
                                 }}
-                                onClick={sendOffer}>
-                            Send
-                        </Button>
+                                sx={{mt: 1}}/>
+                            <Button variant="outlined"
+                                    color="primary"
+                                    style={{
+                                        display: 'inline-block',
+                                        marginLeft: '10px',
+                                        width: '82px'
+                                    }}
+                                    onClick={sendOffer}>
+                                Send
+                            </Button>
+                        </div>
                     </Box>
                     <ToastContainer
                         toastStyle={{
@@ -162,7 +177,7 @@ export default function BasicModal({product}) {
                             padding: '20px 15px 0px 15px'
                         }}
                         position="bottom-right"
-                        autoClose={200000}
+                        autoClose={2500}
                         hideProgressBar={false}
                         newestOnTop={false}
                         closeOnClick
@@ -174,6 +189,18 @@ export default function BasicModal({product}) {
                     />
                 </>
             </Modal>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     );
 }
