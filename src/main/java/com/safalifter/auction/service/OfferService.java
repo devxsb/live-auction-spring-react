@@ -10,6 +10,8 @@ import com.safalifter.auction.request.OfferRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class OfferService {
@@ -26,7 +28,8 @@ public class OfferService {
             Offer offer = Offer.builder()
                     .user(bidder)
                     .product(offeredProduct)
-                    .offeredPrice(request.getOfferedPrice()).build();
+                    .offeredPrice(request.getOfferedPrice())
+                    .id(UUID.randomUUID()).build();
             return offerRepository.save(offer);
         } else {
             throw new InvalidOfferException("Bid higher! Last bid: " + finalOffer);

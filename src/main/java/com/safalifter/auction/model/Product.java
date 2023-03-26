@@ -1,5 +1,6 @@
 package com.safalifter.auction.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties({"offers"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

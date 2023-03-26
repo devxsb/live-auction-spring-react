@@ -1,6 +1,5 @@
 package com.safalifter.auction.controller;
 
-import com.safalifter.auction.dto.OfferDto;
 import com.safalifter.auction.dto.ProductDto;
 import com.safalifter.auction.request.OfferRequest;
 import com.safalifter.auction.request.ProductAddRequest;
@@ -10,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class ProductController {
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final OfferService offerService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping
     ResponseEntity<ProductDto> addProduct(@RequestBody ProductAddRequest request) {
@@ -35,10 +38,11 @@ public class ProductController {
                 .map(x -> modelMapper.map(x, ProductDto.class)).collect(Collectors.toList()));
     }
 
-    @PostMapping("{productId}/offer")
-    ResponseEntity<OfferDto> makeAnOffer(@PathVariable Long productId,
-                                         @RequestBody OfferRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(modelMapper.map(offerService.makeAnOffer(productId, request), OfferDto.class));
+    @MessageMapping("/bid/{productId}")
+    public ResponseEntity<Void> offerEndPoint(@DestinationVariable(value = "productId") Long productId,
+                              OfferRequest request) {
+        messagingTemplate.convertAndSend("/topic/products/" + productId,
+                offerService.makeAnOffer(productId, request));
+        return ResponseEntity.ok().build();
     }
 }

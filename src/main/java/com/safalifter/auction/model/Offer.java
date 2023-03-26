@@ -3,6 +3,7 @@ package com.safalifter.auction.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Builder
@@ -12,8 +13,7 @@ import javax.persistence.*;
 @Setter
 public class Offer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id; // will be solved
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
