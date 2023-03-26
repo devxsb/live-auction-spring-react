@@ -2,10 +2,10 @@ import {Helmet} from 'react-helmet-async';
 // @mui
 import {Container, Typography} from '@mui/material';
 // components
-import {ProductList} from '../sections/@dashboard/products';
+import {ProductList} from '../../sections/@dashboard/products';
 // mock
-import PRODUCTS from '../_mock/products';
-import Footer from "../layouts/footer";
+import PRODUCTS from '../../_mock/products';
+import Footer from "../../layouts/footer";
 
 // ----------------------------------------------------------------------
 

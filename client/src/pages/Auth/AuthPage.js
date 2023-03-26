@@ -3,11 +3,11 @@ import {Helmet} from 'react-helmet-async';
 import {styled} from '@mui/material/styles';
 import {Button, Container, Divider, Link, Stack, Typography} from '@mui/material';
 // hooks
-import useResponsive from '../hooks/useResponsive';
+import useResponsive from '../../hooks/useResponsive';
 // components
-import Iconify from '../components/iconify';
+import Iconify from '../../components/iconify';
 // sections
-import AuthForm from "../sections/auth/AuthForm";
+import AuthForm from "../../sections/auth/AuthForm";
 import {useState} from "react";
 
 // ----------------------------------------------------------------------

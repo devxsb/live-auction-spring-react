@@ -1,12 +1,12 @@
 import './App.css';
-import AuthPage from "./pages/AuthPage";
 import {HelmetProvider} from "react-helmet-async";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ThemeProvider from './theme';
 import NavbarLayout from "./layouts/navbar";
 import {useSelector} from "react-redux";
+import AuthPage from "./pages/Auth";
+import ProductsPage from "./pages/Product";
 import Author from "./pages/Author";
-import ProductsPage from "./pages/ProductsPage";
 
 function App() {
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
