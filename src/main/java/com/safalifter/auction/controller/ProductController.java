@@ -38,9 +38,14 @@ public class ProductController {
                 .map(x -> modelMapper.map(x, ProductDto.class)).collect(Collectors.toList()));
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(modelMapper.map(productService.getProductById(id), ProductDto.class));
+    }
+
     @MessageMapping("/bid/{productId}")
     public ResponseEntity<Void> offerEndPoint(@DestinationVariable(value = "productId") Long productId,
-                              OfferRequest request) {
+                                              OfferRequest request) {
         messagingTemplate.convertAndSend("/topic/products/" + productId,
                 offerService.makeAnOffer(productId, request));
         return ResponseEntity.ok().build();
