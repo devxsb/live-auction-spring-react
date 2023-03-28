@@ -5,6 +5,7 @@ import {Avatar, Box, Divider, IconButton, MenuItem, Popover, Stack, Typography} 
 import {logout} from "../../redux/reduxSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import AuthService from "../../services/AuthService";
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
@@ -25,7 +26,8 @@ export default function AccountPopover() {
     };
 
     const handleLogout = () => {
-        dispatch(logout())
+        let authService = new AuthService()
+        authService.logout().then(() => dispatch(logout()))
     };
 
     return (

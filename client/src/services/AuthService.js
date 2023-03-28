@@ -5,7 +5,15 @@ export default class AuthService {
         return axios.post("/auth/login", body);
     }
 
-    register = (body) => {
+    signup = (body) => {
         return axios.post("/auth/signup", body);
+    }
+
+    logout = () => {
+        return axios.delete("/auth/logout", {
+            headers: {
+                'Authorization': `Basic ${localStorage.getItem("token")}`
+            }
+        })
     }
 }

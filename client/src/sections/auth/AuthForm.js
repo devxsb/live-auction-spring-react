@@ -34,7 +34,7 @@ export default function AuthForm({submit, link}) {
                     dispatch(login(res.data))
                     navigate("/")
                 }).catch((ex) => setError(ex.response.data.error)) :
-                authService.register(body).then(() => {
+                authService.signup(body).then(() => {
                     authService.login(body).then(res => {
                         dispatch(login(res.data))
                         navigate("/")

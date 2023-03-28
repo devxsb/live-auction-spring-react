@@ -4,20 +4,20 @@ export const reduxSlice = createSlice({
     name: 'redux',
     initialState: {
         currentUser: localStorage.getItem('currentUser'),
-        accessToken: localStorage.getItem('accessToken'),
+        token: localStorage.getItem('token'),
     },
     reducers: {
         login: (state, action) => {
             localStorage.setItem('currentUser', action.payload.username)
-            localStorage.setItem('accessToken', action.payload.accessToken)
+            localStorage.setItem('token', action.payload.jwt)
             state.currentUser = action.payload.username
-            state.accessToken = action.payload.accessToken
+            state.token = action.payload.jwt
         },
         logout: state => {
             localStorage.removeItem('currentUser')
-            localStorage.removeItem('accessToken')
+            localStorage.removeItem('token')
             state.currentUser = undefined
-            state.accessToken = undefined
+            state.token = undefined
         },
     }
 })
