@@ -9,6 +9,7 @@ import com.safalifter.auction.repository.OfferRepository;
 import com.safalifter.auction.request.OfferRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ public class OfferService {
     private final UserService userService;
     private final ProductService productService;
 
+    @Transactional
     public Offer makeAnOffer(Long productId, OfferRequest request) {
         User bidder = userService.getUserByUsername(request.getUsername());
         Product offeredProduct = productService.getProductById(productId);
