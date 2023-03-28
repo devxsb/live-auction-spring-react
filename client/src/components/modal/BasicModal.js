@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -10,7 +11,7 @@ import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {useSelector} from "react-redux";
-import {useState} from "react";
+import ProductService from "../../services/ProductService";
 
 const style = {
     position: 'absolute',
@@ -23,39 +24,55 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal({product}) {
+export default function BasicModal(props) {
     const [open, setOpen] = React.useState(false);
 
     const [socket, setSocket] = React.useState(null);
 
     const [offer, setOffer] = React.useState(null);
 
-    const [lastBid, setLastBid] = React.useState(product.price);
+    const [lastBid, setLastBid] = React.useState(props.product.price);
 
-    let [time, setTime] = useState(5);
+    let [time, setTime] = useState(30)
+
+    const [isOpen, setIsOpen] = useState(false)
 
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
 
+    useEffect(() => {
+        let productService = new ProductService();
+        productService.getProductById(props.product.id)
+            .then(res => res.data.offers.length > 0 ?
+                setLastBid(res.data.offers.map(x => x.offeredPrice).reduce((a, b) => Math.max(a, b))) :
+                setLastBid(props.product.price))
+    }, [])
+
     const handleOpen = () => {
         setOpen(true);
-        let x = new ws(product.id)
+        let x = new ws(props.product.id)
         setSocket(x)
         x.wsConnect()
-        const downTimer = setInterval(function () {
-            if (time <= 0) {
-                handleClose()
-                clearInterval(downTimer);
-                toast.success(product.name.split(" ")[0] + " Auction's ended") // will be changed
-                return
-            }
-            setTime(--time)
-        }, 1000);
+        if (!isOpen) downTimer()
+        setIsOpen(true)
     }
 
     const handleClose = () => {
         setOpen(false);
-        setTime(60)
+        setTime(30)
         if (socket) socket.wsDisconnect()
+    }
+
+    const downTimer = () => {
+        let x = setInterval(function () {
+            if (time <= 0) {
+                handleClose()
+                clearInterval(x);
+                setIsOpen(false)
+                toast.success(props.product.name.split(" ")[0] + " Auction's ended") // will be changed
+                return
+            }
+            setTime(--time)
+        }, 1000);
     }
 
     class ws {
@@ -129,7 +146,7 @@ export default function BasicModal({product}) {
                         }} onClick={handleClose}/>
                         <p style={{textAlign: 'center', fontWeight: 'bold', margin: 0}}>{time}</p>
                         <Box sx={{pt: '60%', position: 'relative'}}>
-                            <img src={product.cover} alt={product.id} style={{
+                            <img src={props.product.cover} alt={props.product.id} style={{
                                 top: 0,
                                 width: '100%',
                                 height: '100%',
@@ -139,10 +156,10 @@ export default function BasicModal({product}) {
                             }}/>
                         </Box>
                         <Typography id="modal-modal-title" variant="h6" component="h2" mt='25px'>
-                            {product.name}
+                            {props.product.name}
                         </Typography>
                         <Typography id="modal-modal-description" sx={{mt: 2}} component={'span'}>
-                            <p>Starting price: ${product.price}</p>
+                            <p>Starting price: ${props.product.price}</p>
                             <p>Last bid: ${lastBid}</p>
                         </Typography>
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'}}>
