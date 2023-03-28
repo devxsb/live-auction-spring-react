@@ -2,10 +2,18 @@ version: '3.1'
 
 services:
 
-  db:
+  postgresql_db:
+    container_name: postgres-auction
     image: postgres
-    restart: always
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: 55
+      PGDATA: /data/postgres
+      POSTGRES_DB: auction
+    ports:
+      - "5432:5432"
+
+  redis_db:
+    container_name: redis-auction
+    image: redis
+    ports:
+      - '6379:6379'
