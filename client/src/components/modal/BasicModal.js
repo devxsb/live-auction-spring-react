@@ -37,6 +37,8 @@ export default function BasicModal(props) {
 
     const [isOpen, setIsOpen] = useState(false)
 
+    const [error, setError] = useState(false)
+
     const currentUser = useSelector(state => state.reduxSlice.currentUser)
 
     useEffect(() => {
@@ -59,6 +61,7 @@ export default function BasicModal(props) {
     const handleClose = () => {
         setOpen(false);
         setTime(30)
+        setError(false)
         if (socket) socket.wsDisconnect()
     }
 
@@ -117,11 +120,12 @@ export default function BasicModal(props) {
 
     const sendOffer = () => {
         if (socket) {
-            let bid = {
-                username: currentUser,
-                offeredPrice: offer
-            }
-            socket.sendMessage(bid)
+            if (offer > lastBid)
+                socket.sendMessage({
+                    username: currentUser,
+                    offeredPrice: offer
+                })
+            else setError(true)
         }
     }
 
@@ -168,7 +172,12 @@ export default function BasicModal(props) {
                                 id="outlined-basic"
                                 label="Your offer:"
                                 variant="outlined"
-                                onChange={(e) => setOffer(e.target.value)}
+                                onChange={(e) => {
+                                    setOffer(e.target.value)
+                                    setError(false)
+                                }}
+                                error={error}
+                                helperText={error ? "Your offer must be higher than last bid" : null}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">$</InputAdornment>
                                 }}
