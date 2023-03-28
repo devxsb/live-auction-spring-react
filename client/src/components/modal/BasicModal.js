@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {useSelector} from "react-redux";
 import ProductService from "../../services/ProductService";
+import {Toaster, toast as successToast} from "react-hot-toast";
 
 const style = {
     position: 'absolute',
@@ -33,7 +34,7 @@ export default function BasicModal(props) {
 
     const [lastBid, setLastBid] = React.useState(props.product.price);
 
-    let [time, setTime] = useState(30)
+    let [time, setTime] = useState(5)
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -71,7 +72,7 @@ export default function BasicModal(props) {
                 handleClose()
                 clearInterval(x);
                 setIsOpen(false)
-                toast.success(props.product.name.split(" ")[0] + " Auction's ended") // will be changed
+                successToast(props.product.name.split(" ")[0] + " Auction's ended") // will be changed
                 return
             }
             setTime(--time)
@@ -215,18 +216,7 @@ export default function BasicModal(props) {
                     />
                 </>
             </Modal>
-            <ToastContainer
-                position="bottom-left"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
+            <Toaster/>
         </>
     );
 }
