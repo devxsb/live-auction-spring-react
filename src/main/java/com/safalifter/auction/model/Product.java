@@ -20,6 +20,6 @@ public class Product {
     private String name;
     private Double startingPrice;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Offer> offers;
 }
