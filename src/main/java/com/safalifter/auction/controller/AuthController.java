@@ -29,7 +29,7 @@ public class AuthController {
         return ResponseEntity.ok(modelMapper.map(authService.signup(request), UserDto.class));
     }
 
-    @DeleteMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader(name = "Authorization") String auth) {
         authService.logout(auth);
         return ResponseEntity.ok().build();

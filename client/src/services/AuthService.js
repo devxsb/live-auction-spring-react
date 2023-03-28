@@ -10,7 +10,7 @@ export default class AuthService {
     }
 
     logout = () => {
-        return axios.delete("/auth/logout", {
+        return axios.post("/auth/logout", null, {
             headers: {
                 'Authorization': `Basic ${localStorage.getItem("token")}`
             }
