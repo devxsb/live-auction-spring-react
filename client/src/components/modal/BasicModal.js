@@ -34,7 +34,7 @@ export default function BasicModal(props) {
 
     const [lastBid, setLastBid] = React.useState(props.product.price);
 
-    let [time, setTime] = useState(5)
+    let [time, setTime] = useState(30)
 
     const [isOpen, setIsOpen] = useState(false)
 
