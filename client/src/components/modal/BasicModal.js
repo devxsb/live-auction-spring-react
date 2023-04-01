@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CloseIcon from '@mui/icons-material/Close';
 import {useSelector} from "react-redux";
 import ProductService from "../../services/ProductService";
-import {Toaster, toast as successToast} from "react-hot-toast";
+import {Toaster} from "react-hot-toast";
 
 const style = {
     position: 'absolute',
@@ -34,9 +34,9 @@ export default function BasicModal(props) {
 
     const [lastBid, setLastBid] = React.useState(props.product.price);
 
-    let [time, setTime] = useState(30)
+    // let [time, setTime] = useState(30)
 
-    const [isOpen, setIsOpen] = useState(false)
+    // const [isOpen, setIsOpen] = useState(false)
 
     const [error, setError] = useState(false)
 
@@ -55,29 +55,30 @@ export default function BasicModal(props) {
         let x = new ws(props.product.id)
         setSocket(x)
         x.wsConnect()
-        if (!isOpen) downTimer()
-        setIsOpen(true)
+        // if (!isOpen) downTimer()
+        // setIsOpen(true)
     }
 
     const handleClose = () => {
         setOpen(false);
-        setTime(30)
+        // setTime(30)
         setError(false)
         if (socket) socket.wsDisconnect()
     }
 
-    const downTimer = () => {
-        let x = setInterval(function () {
-            if (time <= 0) {
-                handleClose()
-                clearInterval(x);
-                setIsOpen(false)
-                successToast(props.product.name.split(" ")[0] + " Auction's ended") // will be changed
-                return
-            }
-            setTime(--time)
-        }, 1000);
-    }
+    // down timer removed because it is not working sync on multiple modals
+    /* const downTimer = () => {
+         let x = setInterval(function () {
+             if (time <= 0) {
+                 handleClose()
+                 clearInterval(x);
+                 setIsOpen(false)
+                 successToast(props.product.name.split(" ")[0] + " Auction's ended") // will be changed
+                 return
+             }
+             setTime(--time)
+         }, 1000);
+     } */
 
     class ws {
         sockJS = new SockJS('http://localhost:8080/bid')
@@ -142,15 +143,14 @@ export default function BasicModal(props) {
                 aria-describedby="modal-modal-description"
             >
                 <>
-                    <Box sx={style} width={{xs: '20rem', md: '25rem'}}>
+                    <Box sx={style} width={{xs: '20rem', md: '25rem'}} component="div">
                         <CloseIcon sx={{
                             position: 'absolute',
                             top: 5,
                             left: 5,
                             cursor: 'pointer'
                         }} onClick={handleClose}/>
-                        <p style={{textAlign: 'center', fontWeight: 'bold', margin: 0}}>{time}</p>
-                        <Box sx={{pt: '60%', position: 'relative'}}>
+                        <Box sx={{pt: '60%', position: 'relative'}} component="div">
                             <img src={props.product.cover} alt={props.product.id} style={{
                                 top: 0,
                                 width: '100%',
