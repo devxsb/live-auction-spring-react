@@ -1,19 +1,34 @@
 version: '3.1'
-
 services:
-
-  postgresql_db:
-    container_name: postgres-auction
+  server:
+    container_name: server
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/auction
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    container_name: postgres
     image: postgres
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 55
       PGDATA: /data/postgres
       POSTGRES_DB: auction
     ports:
       - "5432:5432"
-
-  redis_db:
-    container_name: redis-auction
+  redis:
+    container_name: redis
     image: redis
     ports:
       - '6379:6379'
+  client:
+    container_name: client
+    build: client
+    ports:
+      - "3000:80"
