@@ -2,15 +2,15 @@ import axios from "axios";
 
 export default class AuthService {
     login = (body) => {
-        return axios.post("/auth/login", body);
+        return axios.post("http://localhost:8080/v1/auth/login", body);
     }
 
     signup = (body) => {
-        return axios.post("/auth/signup", body);
+        return axios.post("http://localhost:8080/v1/auth/signup", body);
     }
 
     logout = () => {
-        return axios.post("/auth/logout", null, {
+        return axios.post("http://localhost:8080/v1/auth/logout", null, {
             headers: {
                 'Authorization': `Basic ${localStorage.getItem("token")}`
             }
